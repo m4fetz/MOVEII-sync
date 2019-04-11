@@ -24,15 +24,16 @@
 
 #include <gnuradio/io_signature.h>
 #include "freq_adjust_cf_impl.h"
+using namespace std;
 
 namespace gr {
   namespace moveii {
 
     freq_adjust_cf::sptr
-    freq_adjust_cf::make()
+    freq_adjust_cf::make(bool MPSK, float framelen, std::string syncword, int synclen)
     {
       return gnuradio::get_initial_sptr
-        (new freq_adjust_cf_impl());
+        (new freq_adjust_cf_impl(MPSK, framelen, syncword, synclen));
     }
 
     /*
@@ -42,7 +43,39 @@ namespace gr {
       : gr::block("freq_adjust_cf",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(float)))
-    {}
+
+        d_framelen_bits(round(framelen*8)),
+        d_MPSK(MPSK),  //true if BPSK
+        d_synclen_bits(synclen),
+        d_sps(samples_per_symbol),
+        d_FL(), //??
+        d_Fmax(),
+        d_Fstep()
+
+    {
+
+      //Copy ASM to private memory
+      const unsigned int synclen_byte = std::ceil((d_synclen_bits)/8.0f);
+      boost::scoped_array<unsigned char> tmp(new unsigned char[synclen_byte]);
+      hexstring_to_binary(&syncword, temp.get());
+
+      d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment());
+      d_tmp_f = (gr_complex*) volk_malloc(sizeof(gr_complex), volk_get_alignment());
+
+      d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment());
+
+      //get syncword out of tmp
+      for(unsigned int i=0; i<d_synclen_bits; i++)  {
+        const uint8_t byte = tmp[i/8];
+
+        const bool bit ((byte >> (7-(i%8))) & 0x01) == 0x01;
+        d_syncword[i] = (bit ? gr_complex(-1.0, 0.0) : gr_complex(1.0, 0.0));
+      }
+
+      //initialise variables
+      //if not
+
+    }
 
     /*
      * Our virtual destructor.

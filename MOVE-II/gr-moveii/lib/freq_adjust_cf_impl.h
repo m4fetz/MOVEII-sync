@@ -22,6 +22,11 @@
 #define INCLUDED_MOVEII_FREQ_ADJUST_CF_IMPL_H
 
 #include <moveii/freq_adjust_cf.h>
+#include <volk/volk.h>
+#include <complex>
+#include <cstdio>
+#include <cstdlib>
+#include "hexstring_to_binary.h"
 
 namespace gr {
   namespace moveii {
@@ -29,7 +34,10 @@ namespace gr {
     class freq_adjust_cf_impl : public freq_adjust_cf
     {
      private:
-       // Nothing to declare in this block.
+       const bool d_MPSK; // parameter
+       const unsigned int d_framelen_bits;
+       gr_complex *d_syncword;
+       const int d_sps;
        // d_blabla --> creates a option for the block
      public:
       freq_adjust_cf_impl();
