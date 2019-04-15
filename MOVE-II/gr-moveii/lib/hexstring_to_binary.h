@@ -1,10 +1,10 @@
-#ifndef INCLUDED_SATCOMLAB_HEXSTRING_TO_BINARY_H
-#define INCLUDED_SATCOMLAB_HEXSTRING_TO_BINARY_H
+#ifndef INCLUDED_MOVEII_HEXSTRING_TO_BINARY_H
+#define INCLUDED_MOVEII_HEXSTRING_TO_BINARY_H
 
 #include <cstdio>
 
 namespace gr {
-  namespace satcomlab {
+  namespace moveii {
 
 
 /*! \brief Converts hexadecimal value into decimal one.
@@ -71,7 +71,7 @@ inline void hexstring_to_binary(const std::string *str, unsigned char *bin) {
 	return;
 }
 
-  } // namespace satcomlab
+  } // namespace moveii
 } // namespace gr
 
-#endif /* INCLUDED_SATCOMLAB_HEXSTRING_TO_BINARY_H */
+#endif /* INCLUDED_MOVEII_HEXSTRING_TO_BINARY_H */

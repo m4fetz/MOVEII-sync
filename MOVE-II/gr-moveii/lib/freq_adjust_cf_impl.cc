@@ -30,10 +30,10 @@ namespace gr {
   namespace moveii {
 
     freq_adjust_cf::sptr
-    freq_adjust_cf::make(bool MPSK, float framelen, std::string syncword, int synclen)
+    freq_adjust_cf::make(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate)
     {
       return gnuradio::get_initial_sptr
-        (new freq_adjust_cf_impl(MPSK, framelen, syncword, synclen));
+        (new freq_adjust_cf_impl(MPSK, framelen, syncword, synclen, samples_per_symbol, sample_rate));
     }
 
     /*
@@ -46,9 +46,10 @@ namespace gr {
 
         d_framelen_bits(round(framelen*8)),
         d_MPSK(MPSK),  //true if BPSK
-        d_synclen_bits(synclen),
-        d_sps(samples_per_symbol),
-        d_FL(), //??
+        d_synclen_bits(synclen),  //syncword length in bits
+        d_sample_rate(sample_rate), //sample rate
+        d_sps(samples_per_symbol), //oversampling rate
+        d_FL(), // parameters for the frequency sweep
         d_Fmax(),
         d_Fstep()
 
@@ -78,7 +79,7 @@ namespace gr {
     }
 
     /*
-     * Our virtual destructor.
+     * virtual destructor.
      */
     freq_adjust_cf_impl::~freq_adjust_cf_impl()
     {
@@ -90,14 +91,20 @@ namespace gr {
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
 
+    gr_complex freq_adjust_cf_impl::coarse_freq_estimate(const gr_complex *in, const float alpha, const float FL) //not done
+    {
+
+    }
+
+
     int
     freq_adjust_cf_impl::general_work (int noutput_items,
                        gr_vector_int &ninput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-      <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
+      const gr_complex *in = (const gr_complex *) input_items[0];
+      float *out = (float *) output_items[0];
 
       // Do <+signal processing+>
       // Tell runtime system how many input items we consumed on
