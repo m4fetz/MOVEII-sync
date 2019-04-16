@@ -60,10 +60,12 @@ namespace gr {
       boost::scoped_array<unsigned char> tmp(new unsigned char[synclen_byte]);
       hexstring_to_binary(&syncword, temp.get());
 
-      d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment());
-      d_tmp_f = (gr_complex*) volk_malloc(sizeof(gr_complex), volk_get_alignment());
+      d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex samples TODO framelen is right?
+      d_tmp_fc = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated samples
+      d_tmp_f = (gr_complex*) volk_malloc(sizeof(gr_complex), volk_get_alignment()); //aligned buffer for correlation result
 
       d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment());
+
 
       //get syncword out of tmp
       for(unsigned int i=0; i<d_synclen_bits; i++)  {
@@ -83,6 +85,8 @@ namespace gr {
      */
     freq_adjust_cf_impl::~freq_adjust_cf_impl()
     {
+
+      //volk_free() of all buffers TODO
     }
 
     void
@@ -91,10 +95,26 @@ namespace gr {
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
 
-    gr_complex freq_adjust_cf_impl::coarse_freq_estimate(const gr_complex *in, const float alpha, const float FL) //not done
-    {
+    gr_complex freq_adjust_cf_impl::diff_corr(const gr_complex *in, const gr_complex *syncword, const int sps){ //TODO better look up or direct input?
 
+      //take the conjugate of the input samples
+      volk_32fc_conjugate_32fc(d_tmp_fc, in, needed_samples); //TODO needed samples
+
+      for (int l = 0; l<d_synclen_bits; l++){
+        y_sum = 0;
+        y_sum += (&d_tmp_fc[l*d_sps] * syncword[l]) * (&in[(l+1)*d_sps] * syncword[l+1]);
+      }
+
+      return y_sum;
     }
+
+
+  //  gr_complex freq_adjust_cf_impl::coarse_freq_estimate(const gr_complex *in, const float alpha, const float FL, const int N) //not done
+  //  {
+  //    for (int i = 0; i <= N; i++) {
+  //      /* code */
+  //    }
+  //  }
 
 
     int
