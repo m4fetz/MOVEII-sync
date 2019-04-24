@@ -24,6 +24,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "freq_adjust_cf_impl.h"
+#include <iostream>
 using namespace std;
 
 namespace gr {
@@ -58,7 +59,7 @@ namespace gr {
       //Copy ASM to private memory
       const unsigned int synclen_byte = std::ceil((d_synclen_bits)/8.0f);
       boost::scoped_array<unsigned char> tmp(new unsigned char[synclen_byte]);
-      hexstring_to_binary(&syncword, temp.get());
+      hexstring_to_binary(&syncword, tmp.get());
 
       d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex samples TODO framelen is right?
       d_tmp_fc = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated samples
@@ -95,26 +96,37 @@ namespace gr {
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
 
-    gr_complex freq_adjust_cf_impl::diff_corr(const gr_complex *in, const gr_complex *syncword, const int sps){ //TODO better look up or direct input?
+    gr_complex freq_adjust_cf_impl::diff_corr(const gr_complex *in, const gr_complex *syncword, const int sps){
 
       //take the conjugate of the input samples
-      volk_32fc_conjugate_32fc(d_tmp_fc, in, needed_samples); //TODO needed samples
+      volk_32fc_conjugate_32fc(d_tmp_fc, in, d_synclen_bits+1); //TODO needed samples = d_synclen_bits+1
 
       for (int l = 0; l<d_synclen_bits; l++){
         y_sum = 0;
-        y_sum += (&d_tmp_fc[l*d_sps] * syncword[l]) * (&in[(l+1)*d_sps] * syncword[l+1]);
+        y_sum += (&d_tmp_fc[l*d_sps] * syncword[l]) * (&in[(l+1)*d_sps] * syncword[l+1]); //TODO update for qpsk
       }
 
       return y_sum;
     }
 
+    gr_complex freq_adjust_cf_impl::freq_shift(const gr_complex *in, int i){
 
-  //  gr_complex freq_adjust_cf_impl::coarse_freq_estimate(const gr_complex *in, const float alpha, const float FL, const int N) //not done
-  //  {
-  //    for (int i = 0; i <= N; i++) {
-  //      /* code */
-  //    }
-  //  }
+      const double pi = std::acos(-1);
+      const std::complex<double> j(0, 1);
+      shift_in = *in * std::exp(-j*pi*(-d_Fmax+i*d_Fstep))
+
+    }
+
+
+    gr_complex freq_adjust_cf_impl::coarse_freq_estimate(const gr_complex *in, const float alpha, const float FL, const int N) //not done
+    {
+      gr_complex coarse_branch_abs = (0.0,0.0); //into general_work?
+      for (int i = 0; i <= N ; i++) {
+
+        coarse_branch = /*matchedfilter of */freq_shift(in,i) * diff_corr();
+
+      }
+    }
 
 
     int
