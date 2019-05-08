@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "burst_sync_cc_impl.h"
 #include <iostream>
+#include <fftw3.h>
 using namespace std;
 
 namespace gr {
@@ -87,9 +88,17 @@ namespace gr {
 
 
     void
-    freq_adjust_cf_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
+    burst_sync_cc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
+    }
+
+    void
+    burst_sync_cc_impl::fftw(const gr_complex *in, int d_framelen_bits) {
+
+      const int n = d_framelen_bits;
+      fftw_complex // TODO
+
     }
 
     int

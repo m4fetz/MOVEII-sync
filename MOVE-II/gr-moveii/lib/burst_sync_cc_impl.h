@@ -39,9 +39,9 @@ namespace gr {
       const unsigned int d_framelen_bits;
       const int d_sps;
       const float d_Fmax;
-      gr_complex *d_syncword;
-      gr_complex *d_tmp_fv;   //input samples
-      gr_complex *d_tmp_fc;   //fft samples
+      gr_complex *d_syncword; //buffer for syncword
+      gr_complex *d_tmp_fv;   //buffer for input samples
+      gr_complex *d_tmp_fc;   //buffer for fft samples
 
      public:
       burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max);
