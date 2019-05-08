@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/lib
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,38 +38,49 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xmoveii_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
-  foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so"
-      )
-    if(EXISTS "${file}" AND
-       NOT IS_SYMLINK "${file}")
-      file(RPATH_CHECK
-           FILE "${file}"
-           RPATH "")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0")
+    file(RPATH_CHECK
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0"
+         RPATH "")
+  endif()
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so.0.0.0")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0")
+    file(RPATH_CHANGE
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0"
+         OLD_RPATH "/home/max/prefix/lib:"
+         NEW_RPATH "")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0")
     endif()
-  endforeach()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES
-    "/home/max/gnuradio/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so.0.0.0"
-    "/home/max/gnuradio/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so"
-    )
-  foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so.0.0.0"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so"
-      )
-    if(EXISTS "${file}" AND
-       NOT IS_SYMLINK "${file}")
-      if(CMAKE_INSTALL_DO_STRIP)
-        execute_process(COMMAND "/usr/bin/strip" "${file}")
-      endif()
+  endif()
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xmoveii_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so")
+    file(RPATH_CHECK
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so"
+         RPATH "")
+  endif()
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so")
+    file(RPATH_CHANGE
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so"
+         OLD_RPATH "/home/max/prefix/lib:"
+         NEW_RPATH "")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libgnuradio-moveii-1.0.0git.so")
     endif()
-  endforeach()
+  endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xmoveii_runtimex" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE FILE FILES
-    "/home/max/gnuradio/gr-moveii/build/lib/libgnuradio-moveii.so"
-    "/home/max/gnuradio/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so.0"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/libgnuradio-moveii.so"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/libgnuradio-moveii-1.0.0git.so.0"
     )
 endif()
 

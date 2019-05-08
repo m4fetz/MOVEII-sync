@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/grc
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,6 +38,9 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/max/gnuradio/gr-moveii/grc/moveii_freq_adjust_cf.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/grc/moveii_freq_adjust_cf.xml"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/grc/moveii_burst_sync_cc.xml"
+    )
 endif()
 

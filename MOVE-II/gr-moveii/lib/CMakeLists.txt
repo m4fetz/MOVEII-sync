@@ -28,6 +28,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND moveii_sources
     freq_adjust_cf_impl.cc
+    burst_sync_cc_impl.cc
 )
 
 set(moveii_sources "${moveii_sources}" PARENT_SCOPE)

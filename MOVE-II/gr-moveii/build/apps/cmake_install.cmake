@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/apps
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/apps
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

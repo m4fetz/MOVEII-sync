@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/python
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,13 +38,13 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES "/home/max/gnuradio/gr-moveii/python/__init__.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/python/__init__.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES
-    "/home/max/gnuradio/gr-moveii/build/python/__init__.pyc"
-    "/home/max/gnuradio/gr-moveii/build/python/__init__.pyo"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/python/__init__.pyc"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/python/__init__.pyo"
     )
 endif()
 

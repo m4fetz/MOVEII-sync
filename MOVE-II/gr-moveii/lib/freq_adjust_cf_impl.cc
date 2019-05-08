@@ -43,7 +43,7 @@ namespace gr {
     freq_adjust_cf_impl::freq_adjust_cf_impl()
       : gr::block("freq_adjust_cf",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
-              gr::io_signature::make(1, 1, sizeof(float)))
+              gr::io_signature::make(1, 1, sizeof(float))),
 
         d_framelen_bits(round(framelen*8)),
         d_MPSK(MPSK),  //true if BPSK

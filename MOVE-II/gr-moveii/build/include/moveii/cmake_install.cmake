@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/include/moveii
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/include/moveii
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,8 +39,9 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/moveii" TYPE FILE FILES
-    "/home/max/gnuradio/gr-moveii/include/moveii/api.h"
-    "/home/max/gnuradio/gr-moveii/include/moveii/freq_adjust_cf.h"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/include/moveii/api.h"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/include/moveii/freq_adjust_cf.h"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/include/moveii/burst_sync_cc.h"
     )
 endif()
 

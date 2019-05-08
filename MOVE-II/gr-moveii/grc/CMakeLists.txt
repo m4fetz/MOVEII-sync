@@ -19,5 +19,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    moveii_freq_adjust_cf.xml DESTINATION share/gnuradio/grc/blocks
+    moveii_freq_adjust_cf.xml
+    moveii_burst_sync_cc.xml DESTINATION share/gnuradio/grc/blocks
 )

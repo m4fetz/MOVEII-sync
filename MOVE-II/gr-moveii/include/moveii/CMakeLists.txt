@@ -23,5 +23,6 @@
 ########################################################################
 install(FILES
     api.h
-    freq_adjust_cf.h DESTINATION include/moveii
+    freq_adjust_cf.h
+    burst_sync_cc.h DESTINATION include/moveii
 )

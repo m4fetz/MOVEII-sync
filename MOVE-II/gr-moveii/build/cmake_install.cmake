@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/moveii" TYPE FILE FILES "/home/max/gnuradio/gr-moveii/cmake/Modules/moveiiConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/moveii" TYPE FILE FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/cmake/Modules/moveiiConfig.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/max/gnuradio/gr-moveii/build/include/moveii/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/lib/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/swig/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/python/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/grc/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/apps/cmake_install.cmake")
-  include("/home/max/gnuradio/gr-moveii/build/docs/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/include/moveii/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/python/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/grc/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/apps/cmake_install.cmake")
+  include("/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/docs/cmake_install.cmake")
 
 endif()
 
@@ -61,5 +61,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/max/gnuradio/gr-moveii/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

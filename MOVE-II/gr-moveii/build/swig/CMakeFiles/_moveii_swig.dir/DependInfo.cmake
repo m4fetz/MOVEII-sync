@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/max/gnuradio/gr-moveii/build/swig/moveii_swigPYTHON_wrap.cxx" "/home/max/gnuradio/gr-moveii/build/swig/CMakeFiles/_moveii_swig.dir/moveii_swigPYTHON_wrap.cxx.o"
+  "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/moveii_swigPYTHON_wrap.cxx" "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/CMakeFiles/_moveii_swig.dir/moveii_swigPYTHON_wrap.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,16 +14,16 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "lib"
   "include"
-  "/home/max/prefix/default/include"
+  "/home/max/prefix/include"
   "swig"
   "../swig"
-  "/home/max/prefix/default/include/gnuradio/swig"
+  "/home/max/prefix/include/gnuradio/swig"
   "/usr/include/python2.7"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/max/gnuradio/gr-moveii/build/lib/CMakeFiles/gnuradio-moveii.dir/DependInfo.cmake"
+  "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib/CMakeFiles/gnuradio-moveii.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

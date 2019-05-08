@@ -10,31 +10,47 @@
 gnuradio/attributes.h
 -
 
-../include/moveii/freq_adjust_cf.h
+../include/moveii/burst_sync_cc.h
 moveii/api.h
 -
-gnuradio/block.h
+gnuradio/sync_block.h
 -
 
-/home/max/gnuradio/gr-moveii/lib/freq_adjust_cf_impl.cc
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/burst_sync_cc_impl.cc
 config.h
-/home/max/gnuradio/gr-moveii/lib/config.h
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/config.h
 gnuradio/io_signature.h
 -
-freq_adjust_cf_impl.h
-/home/max/gnuradio/gr-moveii/lib/freq_adjust_cf_impl.h
-
-/home/max/gnuradio/gr-moveii/lib/freq_adjust_cf_impl.h
-moveii/freq_adjust_cf.h
+burst_sync_cc_impl.h
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/burst_sync_cc_impl.h
+iostream
 -
 
-/home/max/prefix/default/include/gnuradio/api.h
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/burst_sync_cc_impl.h
+moveii/burst_sync_cc.h
+-
+volk/volk.h
+-
+complex
+-
+cstdio
+-
+cstdlib
+-
+hexstring_to_binary.h
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/hexstring_to_binary.h
+
+/home/max/MOVEII-sync/MOVE-II/gr-moveii/lib/hexstring_to_binary.h
+cstdio
+-
+
+/home/max/prefix/include/gnuradio/api.h
 gnuradio/attributes.h
 -
 
-/home/max/prefix/default/include/gnuradio/attributes.h
+/home/max/prefix/include/gnuradio/attributes.h
 
-/home/max/prefix/default/include/gnuradio/basic_block.h
+/home/max/prefix/include/gnuradio/basic_block.h
 gnuradio/api.h
 -
 gnuradio/sptr_magic.h
@@ -66,7 +82,7 @@ map
 gnuradio/rpcregisterhelpers.h
 -
 
-/home/max/prefix/default/include/gnuradio/block.h
+/home/max/prefix/include/gnuradio/block.h
 gnuradio/api.h
 -
 gnuradio/basic_block.h
@@ -76,7 +92,7 @@ gnuradio/tags.h
 gnuradio/logger.h
 -
 
-/home/max/prefix/default/include/gnuradio/block_registry.h
+/home/max/prefix/include/gnuradio/block_registry.h
 gnuradio/api.h
 -
 gnuradio/basic_block.h
@@ -84,19 +100,19 @@ gnuradio/basic_block.h
 map
 -
 
-/home/max/prefix/default/include/gnuradio/config.h
+/home/max/prefix/include/gnuradio/config.h
 
-/home/max/prefix/default/include/gnuradio/gr_complex.h
+/home/max/prefix/include/gnuradio/gr_complex.h
 complex
 -
 
-/home/max/prefix/default/include/gnuradio/io_signature.h
+/home/max/prefix/include/gnuradio/io_signature.h
 gnuradio/api.h
 -
 gnuradio/runtime_types.h
 -
 
-/home/max/prefix/default/include/gnuradio/logger.h
+/home/max/prefix/include/gnuradio/logger.h
 sys/types.h
 -
 gnuradio/api.h
@@ -128,7 +144,7 @@ log4cpp/OstreamAppender.hh
 log4cpp/PatternLayout.hh
 -
 
-/home/max/prefix/default/include/gnuradio/messages/msg_accepter.h
+/home/max/prefix/include/gnuradio/messages/msg_accepter.h
 gnuradio/api.h
 -
 pmt/pmt.h
@@ -136,7 +152,7 @@ pmt/pmt.h
 boost/shared_ptr.hpp
 -
 
-/home/max/prefix/default/include/gnuradio/messages/msg_producer.h
+/home/max/prefix/include/gnuradio/messages/msg_producer.h
 gnuradio/api.h
 -
 pmt/pmt.h
@@ -144,7 +160,7 @@ pmt/pmt.h
 boost/shared_ptr.hpp
 -
 
-/home/max/prefix/default/include/gnuradio/msg_accepter.h
+/home/max/prefix/include/gnuradio/msg_accepter.h
 gnuradio/api.h
 -
 gnuradio/messages/msg_accepter.h
@@ -152,13 +168,13 @@ gnuradio/messages/msg_accepter.h
 pmt/pmt.h
 -
 
-/home/max/prefix/default/include/gnuradio/rpccallbackregister_base.h
+/home/max/prefix/include/gnuradio/rpccallbackregister_base.h
 gnuradio/messages/msg_accepter.h
 -
 gnuradio/messages/msg_producer.h
 -
 
-/home/max/prefix/default/include/gnuradio/rpcmanager.h
+/home/max/prefix/include/gnuradio/rpcmanager.h
 gnuradio/api.h
 -
 gnuradio/rpcmanager_base.h
@@ -170,11 +186,11 @@ memory
 iostream
 -
 
-/home/max/prefix/default/include/gnuradio/rpcmanager_base.h
+/home/max/prefix/include/gnuradio/rpcmanager_base.h
 boost/shared_ptr.hpp
 -
 
-/home/max/prefix/default/include/gnuradio/rpcregisterhelpers.h
+/home/max/prefix/include/gnuradio/rpcregisterhelpers.h
 stdio.h
 -
 sstream
@@ -192,7 +208,7 @@ gnuradio/rpcserver_base.h
 gnuradio/block_registry.h
 -
 
-/home/max/prefix/default/include/gnuradio/rpcserver_aggregator.h
+/home/max/prefix/include/gnuradio/rpcserver_aggregator.h
 vector
 -
 string
@@ -202,11 +218,11 @@ gnuradio/rpcserver_base.h
 gnuradio/rpcmanager_base.h
 -
 
-/home/max/prefix/default/include/gnuradio/rpcserver_base.h
+/home/max/prefix/include/gnuradio/rpcserver_base.h
 gnuradio/rpccallbackregister_base.h
 -
 
-/home/max/prefix/default/include/gnuradio/rpcserver_booter_aggregator.h
+/home/max/prefix/include/gnuradio/rpcserver_booter_aggregator.h
 gnuradio/api.h
 -
 gnuradio/rpcserver_booter_base.h
@@ -218,35 +234,41 @@ boost/shared_ptr.hpp
 string
 -
 
-/home/max/prefix/default/include/gnuradio/rpcserver_booter_base.h
+/home/max/prefix/include/gnuradio/rpcserver_booter_base.h
 string
 -
 vector
 -
 
-/home/max/prefix/default/include/gnuradio/rpcserver_selector.h
+/home/max/prefix/include/gnuradio/rpcserver_selector.h
 gnuradio/config.h
 -
 
-/home/max/prefix/default/include/gnuradio/runtime_types.h
+/home/max/prefix/include/gnuradio/runtime_types.h
 gnuradio/api.h
 -
 gnuradio/types.h
 -
 
-/home/max/prefix/default/include/gnuradio/sptr_magic.h
+/home/max/prefix/include/gnuradio/sptr_magic.h
 gnuradio/api.h
 -
 boost/shared_ptr.hpp
 -
 
-/home/max/prefix/default/include/gnuradio/tags.h
+/home/max/prefix/include/gnuradio/sync_block.h
+gnuradio/api.h
+-
+gnuradio/block.h
+-
+
+/home/max/prefix/include/gnuradio/tags.h
 gnuradio/api.h
 -
 pmt/pmt.h
 -
 
-/home/max/prefix/default/include/gnuradio/thread/thread.h
+/home/max/prefix/include/gnuradio/thread/thread.h
 gnuradio/api.h
 -
 boost/thread/thread.hpp
@@ -266,7 +288,7 @@ vector
 windows.h
 -
 
-/home/max/prefix/default/include/gnuradio/types.h
+/home/max/prefix/include/gnuradio/types.h
 gnuradio/api.h
 -
 boost/shared_ptr.hpp
@@ -280,11 +302,11 @@ gnuradio/gr_complex.h
 stdint.h
 -
 
-/home/max/prefix/default/include/pmt/api.h
+/home/max/prefix/include/pmt/api.h
 gnuradio/attributes.h
 -
 
-/home/max/prefix/default/include/pmt/pmt.h
+/home/max/prefix/include/pmt/pmt.h
 pmt/api.h
 -
 boost/intrusive_ptr.hpp
@@ -308,7 +330,55 @@ vector
 pmt/pmt_sugar.h
 -
 
-/home/max/prefix/default/include/pmt/pmt_sugar.h
+/home/max/prefix/include/pmt/pmt_sugar.h
 gnuradio/messages/msg_accepter.h
+-
+
+/home/max/prefix/include/volk/volk.h
+volk/volk_typedefs.h
+-
+volk/volk_config_fixed.h
+-
+volk/volk_common.h
+-
+volk/volk_complex.h
+-
+volk/volk_malloc.h
+-
+stdlib.h
+-
+stdbool.h
+-
+
+/home/max/prefix/include/volk/volk_common.h
+inttypes.h
+-
+intrin.h
+-
+x86intrin.h
+-
+
+/home/max/prefix/include/volk/volk_complex.h
+complex
+-
+stdint.h
+-
+tgmath.h
+-
+complex.h
+-
+
+/home/max/prefix/include/volk/volk_config_fixed.h
+
+/home/max/prefix/include/volk/volk_malloc.h
+volk/volk_common.h
+-
+stdlib.h
+-
+
+/home/max/prefix/include/volk/volk_typedefs.h
+inttypes.h
+-
+volk/volk_complex.h
 -
 

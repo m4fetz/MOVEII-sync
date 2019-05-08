@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/swig
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/swig
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,12 +44,12 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii/_moveii_swig.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE MODULE FILES "/home/max/gnuradio/gr-moveii/build/swig/_moveii_swig.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE MODULE FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/_moveii_swig.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii/_moveii_swig.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii/_moveii_swig.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii/_moveii_swig.so"
-         OLD_RPATH "/home/max/gnuradio/gr-moveii/build/lib:"
+         OLD_RPATH "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/lib:/home/max/prefix/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii/_moveii_swig.so")
@@ -58,20 +58,20 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES "/home/max/gnuradio/gr-moveii/build/swig/moveii_swig.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/moveii_swig.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/moveii" TYPE FILE FILES
-    "/home/max/gnuradio/gr-moveii/build/swig/moveii_swig.pyc"
-    "/home/max/gnuradio/gr-moveii/build/swig/moveii_swig.pyo"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/moveii_swig.pyc"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/moveii_swig.pyo"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/moveii/moveii/swig" TYPE FILE FILES
-    "/home/max/gnuradio/gr-moveii/swig/moveii_swig.i"
-    "/home/max/gnuradio/gr-moveii/build/swig/moveii_swig_doc.i"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/swig/moveii_swig.i"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/moveii_swig_doc.i"
     )
 endif()
 

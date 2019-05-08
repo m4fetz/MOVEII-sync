@@ -1,8 +1,8 @@
-# Install script for directory: /home/max/gnuradio/gr-moveii/docs/doxygen
+# Install script for directory: /home/max/MOVEII-sync/MOVE-II/gr-moveii/docs/doxygen
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/max/prefix/default")
+  set(CMAKE_INSTALL_PREFIX "/home/max/prefix")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,8 +39,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/doc/gr-moveii" TYPE DIRECTORY FILES
-    "/home/max/gnuradio/gr-moveii/build/docs/doxygen/xml"
-    "/home/max/gnuradio/gr-moveii/build/docs/doxygen/html"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/docs/doxygen/xml"
+    "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/docs/doxygen/html"
     )
 endif()
 

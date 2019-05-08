@@ -40,7 +40,7 @@ namespace gr {
        const int d_sps;
        // d_blabla --> creates a option for the block
      public:
-      freq_adjust_cf_impl();
+      freq_adjust_cf_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate);
       ~freq_adjust_cf_impl();
 
       // Where all the action really happens

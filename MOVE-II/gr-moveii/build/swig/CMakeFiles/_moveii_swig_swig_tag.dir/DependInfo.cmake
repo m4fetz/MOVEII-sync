@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/max/gnuradio/gr-moveii/build/swig/_moveii_swig_swig_tag.cpp" "/home/max/gnuradio/gr-moveii/build/swig/CMakeFiles/_moveii_swig_swig_tag.dir/_moveii_swig_swig_tag.cpp.o"
+  "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/_moveii_swig_swig_tag.cpp" "/home/max/MOVEII-sync/MOVE-II/gr-moveii/build/swig/CMakeFiles/_moveii_swig_swig_tag.dir/_moveii_swig_swig_tag.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,10 +14,10 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "lib"
   "include"
-  "/home/max/prefix/default/include"
+  "/home/max/prefix/include"
   "swig"
   "../swig"
-  "/home/max/prefix/default/include/gnuradio/swig"
+  "/home/max/prefix/include/gnuradio/swig"
   "/usr/include/python2.7"
   )
 
