@@ -90,15 +90,17 @@ namespace gr {
     void
     burst_sync_cc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
+      ninput_items_required[0] = noutput_items;
     }
 
     void
-    burst_sync_cc_impl::fftw(const gr_complex *in, int d_framelen_bits) {
-
-      const int n = d_framelen_bits;
-      fftw_complex // TODO
-
+    burst_sync_cc_impl::fft_input_samples(const gr_complex *in, gr_complex *out,const int N) {
+      //compute the
+      //needs the length of the input array --> N = ninput_items
+      fftw_plan plan = fftw_plan_dft_1d(N, in, out, FFT_FORWARD, FFT_ESTIMATE);
+      fftw_execute(plan);
+      fftw_destroy_plan(plan);
+      fftw_cleanup();
     }
 
     int

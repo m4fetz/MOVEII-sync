@@ -27,7 +27,6 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND moveii_sources
-    freq_adjust_cf_impl.cc
     burst_sync_cc_impl.cc
 )
 

@@ -43,7 +43,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=RelWithDebInfo
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -236,65 +236,14 @@ DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
 //Doxygen documentation generation tool (http://www.doxygen.org)
 DOXYGEN_EXECUTABLE:FILEPATH=/usr/bin/doxygen
 
-//Build docs using Doxygen
-ENABLE_DOXYGEN:BOOL=ON
-
-//git command line client
-GIT_EXECUTABLE:FILEPATH=/usr/bin/git
-
-//Path to a file.
-GNURADIO_RUNTIME_INCLUDE_DIRS:PATH=/home/max/prefix/include
-
-//Path to a library.
-GNURADIO_RUNTIME_LIBRARIES_gnuradio-pmt:FILEPATH=/home/max/prefix/lib/libgnuradio-pmt.so
-
-//Path to a library.
-GNURADIO_RUNTIME_LIBRARIES_gnuradio-runtime:FILEPATH=/home/max/prefix/lib/libgnuradio-runtime.so
-
-//Path to a library.
-GNURADIO_RUNTIME_LIBRARIES_log4cpp:FILEPATH=/usr/lib/x86_64-linux-gnu/liblog4cpp.so
-
 //The directory containing a CMake configuration file for Gnuradio.
-Gnuradio_DIR:PATH=/home/max/prefix/lib/cmake/gnuradio
+Gnuradio_DIR:PATH=Gnuradio_DIR-NOTFOUND
 
 //lib directory suffix
 LIB_SUFFIX:STRING=
 
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
-
-//Path to a program.
-PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2
-
-//Path to a file.
-PYTHON_INCLUDE_DIR:PATH=/usr/include/python2.7
-
-//Path to a library.
-PYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython2.7.so
-
-//Path to a library.
-PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
-
-//python interpreter for QA tests
-QA_PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python2
-
-//Path to a program.
-SHELL:FILEPATH=/usr/bin/sh
-
-//Path to a file.
-SWIG_DIR:PATH=/usr/share/swig3.0
-
-//Path to a program.
-SWIG_EXECUTABLE:FILEPATH=/usr/bin/swig3.0
-
-//Swig version
-SWIG_VERSION:STRING=3.0.12
-
-//Dependencies for the target
-_moveii_swig_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libpython2.7.so;general;gnuradio-moveii;
-
-//Dependencies for the target
-gnuradio-moveii_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;general;/home/max/prefix/lib/libgnuradio-runtime.so;general;/home/max/prefix/lib/libgnuradio-pmt.so;general;/usr/lib/x86_64-linux-gnu/liblog4cpp.so;
 
 //Value Computed by CMake
 gr-moveii_BINARY_DIR:STATIC=/home/max/MOVEII-sync/MOVE-II/gr-moveii/build
@@ -304,15 +253,6 @@ gr-moveii_SOURCE_DIR:STATIC=/home/max/MOVEII-sync/MOVE-II/gr-moveii
 
 //Path to a library.
 pkgcfg_lib_PC_CPPUNIT_cppunit:FILEPATH=/usr/lib/x86_64-linux-gnu/libcppunit.so
-
-//Path to a library.
-pkgcfg_lib_PC_GNURADIO_RUNTIME_gnuradio-pmt:FILEPATH=/home/max/prefix/lib/libgnuradio-pmt.so
-
-//Path to a library.
-pkgcfg_lib_PC_GNURADIO_RUNTIME_gnuradio-runtime:FILEPATH=/home/max/prefix/lib/libgnuradio-runtime.so
-
-//Path to a library.
-pkgcfg_lib_PC_GNURADIO_RUNTIME_log4cpp:FILEPATH=/usr/lib/x86_64-linux-gnu/liblog4cpp.so
 
 
 ########################
@@ -385,6 +325,8 @@ CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
 CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//Whether to issue deprecation errors for macros and functions.
+CMAKE_ERROR_DEPRECATED:INTERNAL=FALSE
 //Executable file format
 CMAKE_EXECUTABLE_FORMAT:INTERNAL=ELF
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS
@@ -431,7 +373,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -468,10 +410,18 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STRIP
 CMAKE_STRIP-ADVANCED:INTERNAL=1
+//Suppress errors that are meant for the author of the CMakeLists.txt
+// files.
+CMAKE_SUPPRESS_DEVELOPER_ERRORS:INTERNAL=TRUE
+//Suppress Warnings that are meant for the author of the CMakeLists.txt
+// files.
+CMAKE_SUPPRESS_DEVELOPER_WARNINGS:INTERNAL=TRUE
 //uname command
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Whether to issue warnings for deprecated functionality.
+CMAKE_WARN_DEPRECATED:INTERNAL=FALSE
 //ADVANCED property for variable: CPPUNIT_INCLUDE_DIRS
 CPPUNIT_INCLUDE_DIRS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CPPUNIT_LIBRARIES
@@ -484,36 +434,8 @@ DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
 FIND_PACKAGE_MESSAGE_DETAILS_CPPUNIT:INTERNAL=[/usr/lib/x86_64-linux-gnu/libcppunit.so;dl][/usr/include][v()]
 //Details about finding Doxygen
 FIND_PACKAGE_MESSAGE_DETAILS_Doxygen:INTERNAL=[/usr/bin/doxygen][cfound components:  doxygen missing components:  dot][v1.8.13()]
-//Details about finding GNURADIO_RUNTIME
-FIND_PACKAGE_MESSAGE_DETAILS_GNURADIO_RUNTIME:INTERNAL=[/home/max/prefix/lib/libgnuradio-runtime.so;/home/max/prefix/lib/libgnuradio-pmt.so;/usr/lib/x86_64-linux-gnu/liblog4cpp.so][/home/max/prefix/include][v()]
-//Details about finding Git
-FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v()]
 //Details about finding PkgConfig
 FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.1()]
-//Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python2][v2.7.16(2)]
-//Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython2.7.so][/usr/include/python2.7][v2.7.16(2)]
-//Details about finding SWIG
-FIND_PACKAGE_MESSAGE_DETAILS_SWIG:INTERNAL=[/usr/bin/swig3.0][/usr/share/swig3.0][v()]
-//ADVANCED property for variable: GIT_EXECUTABLE
-GIT_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: GNURADIO_RUNTIME_INCLUDE_DIRS
-GNURADIO_RUNTIME_INCLUDE_DIRS-ADVANCED:INTERNAL=1
-GR_MOVEII_INCLUDE_DIRS:INTERNAL=/home/max/MOVEII-sync/MOVE-II/gr-moveii/include
-GR_MOVEII_SWIG_INCLUDE_DIRS:INTERNAL=/home/max/MOVEII-sync/MOVE-II/gr-moveii/swig
-//Result of TRY_COMPILE
-HAVE_SIZEOF_SIZE_T:INTERNAL=TRUE
-//Result of TRY_COMPILE
-HAVE_SIZEOF_UINT:INTERNAL=TRUE
-//Have include stddef.h
-HAVE_STDDEF_H:INTERNAL=1
-//Have include stdint.h
-HAVE_STDINT_H:INTERNAL=1
-//Have include sys/types.h
-HAVE_SYS_TYPES_H:INTERNAL=1
-//Test HAVE_WNO_UNUSED_BUT_SET_VARIABLE
-HAVE_WNO_UNUSED_BUT_SET_VARIABLE:INTERNAL=1
 PC_CPPUNIT_CFLAGS:INTERNAL=
 PC_CPPUNIT_CFLAGS_I:INTERNAL=
 PC_CPPUNIT_CFLAGS_OTHER:INTERNAL=
@@ -548,60 +470,8 @@ PC_CPPUNIT_cppunit_INCLUDEDIR:INTERNAL=
 PC_CPPUNIT_cppunit_LIBDIR:INTERNAL=
 PC_CPPUNIT_cppunit_PREFIX:INTERNAL=
 PC_CPPUNIT_cppunit_VERSION:INTERNAL=
-PC_GNURADIO_RUNTIME_CFLAGS:INTERNAL=-I/home/max/prefix/include
-PC_GNURADIO_RUNTIME_CFLAGS_I:INTERNAL=
-PC_GNURADIO_RUNTIME_CFLAGS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_FOUND:INTERNAL=1
-PC_GNURADIO_RUNTIME_INCLUDEDIR:INTERNAL=/home/max/prefix/include
-PC_GNURADIO_RUNTIME_INCLUDE_DIRS:INTERNAL=/home/max/prefix/include
-PC_GNURADIO_RUNTIME_LDFLAGS:INTERNAL=-L/home/max/prefix/lib;-lgnuradio-runtime;-lgnuradio-pmt;-llog4cpp
-PC_GNURADIO_RUNTIME_LDFLAGS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_LIBDIR:INTERNAL=/home/max/prefix/lib
-PC_GNURADIO_RUNTIME_LIBRARIES:INTERNAL=gnuradio-runtime;gnuradio-pmt;log4cpp
-PC_GNURADIO_RUNTIME_LIBRARY_DIRS:INTERNAL=/home/max/prefix/lib
-PC_GNURADIO_RUNTIME_LIBS:INTERNAL=
-PC_GNURADIO_RUNTIME_LIBS_L:INTERNAL=
-PC_GNURADIO_RUNTIME_LIBS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_LIBS_PATHS:INTERNAL=
-PC_GNURADIO_RUNTIME_PREFIX:INTERNAL=/home/max/prefix
-PC_GNURADIO_RUNTIME_STATIC_CFLAGS:INTERNAL=-I/home/max/prefix/include
-PC_GNURADIO_RUNTIME_STATIC_CFLAGS_I:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_CFLAGS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_INCLUDE_DIRS:INTERNAL=/home/max/prefix/include
-PC_GNURADIO_RUNTIME_STATIC_LDFLAGS:INTERNAL=-L/home/max/prefix/lib;-lgnuradio-runtime;-lgnuradio-pmt;-llog4cpp
-PC_GNURADIO_RUNTIME_STATIC_LDFLAGS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_LIBDIR:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_LIBRARIES:INTERNAL=gnuradio-runtime;gnuradio-pmt;log4cpp
-PC_GNURADIO_RUNTIME_STATIC_LIBRARY_DIRS:INTERNAL=/home/max/prefix/lib
-PC_GNURADIO_RUNTIME_STATIC_LIBS:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_LIBS_L:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_LIBS_OTHER:INTERNAL=
-PC_GNURADIO_RUNTIME_STATIC_LIBS_PATHS:INTERNAL=
-PC_GNURADIO_RUNTIME_VERSION:INTERNAL=3.7.13.5
-PC_GNURADIO_RUNTIME_gnuradio-runtime_INCLUDEDIR:INTERNAL=
-PC_GNURADIO_RUNTIME_gnuradio-runtime_LIBDIR:INTERNAL=
-PC_GNURADIO_RUNTIME_gnuradio-runtime_PREFIX:INTERNAL=
-PC_GNURADIO_RUNTIME_gnuradio-runtime_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_EXECUTABLE
-PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_INCLUDE_DIR
-PYTHON_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_LIBRARY
-PYTHON_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_LIBRARY_DEBUG
-PYTHON_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//CHECK_TYPE_SIZE: sizeof(size_t)
-SIZEOF_SIZE_T:INTERNAL=8
-//CHECK_TYPE_SIZE: sizeof(unsigned int)
-SIZEOF_UINT:INTERNAL=4
-//ADVANCED property for variable: SWIG_DIR
-SWIG_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: SWIG_EXECUTABLE
-SWIG_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: SWIG_VERSION
-SWIG_VERSION-ADVANCED:INTERNAL=1
 //Last used BOOST_LIBRARYDIR value.
 _BOOST_LIBRARYDIR_LAST:INTERNAL=/usr/lib64
 //Last used Boost_ADDITIONAL_VERSIONS value.
@@ -619,8 +489,6 @@ _Boost_NAMESPACE_LAST:INTERNAL=boost
 //Last used Boost_USE_MULTITHREADED value.
 _Boost_USE_MULTITHREADED_LAST:INTERNAL=TRUE
 __pkg_config_arguments_PC_CPPUNIT:INTERNAL=cppunit
-__pkg_config_arguments_PC_GNURADIO_RUNTIME:INTERNAL=gnuradio-runtime
 __pkg_config_checked_PC_CPPUNIT:INTERNAL=1
-__pkg_config_checked_PC_GNURADIO_RUNTIME:INTERNAL=1
-prefix_result:INTERNAL=/home/max/prefix/lib
+prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
 
