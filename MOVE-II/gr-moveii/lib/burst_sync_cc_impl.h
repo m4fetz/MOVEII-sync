@@ -37,21 +37,24 @@ namespace gr {
       // Nothing to declare in this block.
       const bool d_MPSK;
       const unsigned int d_framelen_bits;
+      const unsigned int d_synclen_bits;
+      const float d_sample_rate;
       const int d_sps;
       const float d_Fmax;
       gr_complex *d_syncword; //buffer for syncword
       gr_complex *d_tmp_fv;   //buffer for input samples
       gr_complex *d_tmp_fc;   //buffer for fft samples
 
+      void fft_input_samples(const gr_complex *in, gr_complex *out,const int N);
+      
      public:
       burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max);
       ~burst_sync_cc_impl();
 
       // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+      //void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
       int work(int noutput_items,
-         gr_vector_int &ninput_items,
          gr_vector_const_void_star &input_items,
          gr_vector_void_star &output_items);
     };
