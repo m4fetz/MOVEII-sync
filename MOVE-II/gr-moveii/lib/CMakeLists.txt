@@ -19,6 +19,12 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
+# Setup dependencies
+########################################################################
+
+find_package(FFTW3f REQUIRED)
+
+########################################################################
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
@@ -37,7 +43,7 @@ if(NOT moveii_sources)
 endif(NOT moveii_sources)
 
 add_library(gnuradio-moveii SHARED ${moveii_sources})
-target_link_libraries(gnuradio-moveii ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-moveii ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${FFTW3F_LIBRARIES})
 set_target_properties(gnuradio-moveii PROPERTIES DEFINE_SYMBOL "gnuradio_moveii_EXPORTS")
 
 if(APPLE)

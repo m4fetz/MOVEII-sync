@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "burst_sync_cc_impl.h"
 #include <iostream>
+#include <complex> // include complex before fftw3.h to make sure that std::complex<float> is compatible with fftwf_comples
 #include <fftw3.h>
 using namespace std;
 
@@ -41,7 +42,7 @@ namespace gr {
     /*
      * The private constructor
      */
-    burst_sync_cc_impl::burst_sync_cc_impl()
+    burst_sync_cc_impl::burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max)
       : gr::sync_block("burst_sync_cc",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex))),
@@ -69,7 +70,7 @@ namespace gr {
       for(unsigned int i=0; i<d_synclen_bits; i++)  {
         const uint8_t byte = tmp[i/8];
 
-        const bool bit ((byte >> (7-(i%8))) & 0x01) == 0x01;
+        const bool bit = ((byte >> (7-(i%8))) & 0x01) == 0x01;
         d_syncword[i] = (bit ? gr_complex(-1.0, 0.0) : gr_complex(1.0, 0.0));
       }
 
@@ -88,19 +89,13 @@ namespace gr {
 
 
     void
-    burst_sync_cc_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
-    {
-      ninput_items_required[0] = noutput_items;
-    }
-
-    void
     burst_sync_cc_impl::fft_input_samples(const gr_complex *in, gr_complex *out,const int N) {
       //compute the
       //needs the length of the input array --> N = ninput_items
-      fftw_plan plan = fftw_plan_dft_1d(N, in, out, FFT_FORWARD, FFT_ESTIMATE);
-      fftw_execute(plan);
-      fftw_destroy_plan(plan);
-      fftw_cleanup();
+      fftwf_plan plan = fftwf_plan_dft_1d(N,const_cast<fftwf_complex*>(reinterpret_cast<const fftwf_complex*>(in)), reinterpret_cast<fftwf_complex*>(out), FFTW_FORWARD, FFTW_ESTIMATE);
+      fftwf_execute(plan);
+      fftwf_destroy_plan(plan);
+      fftwf_cleanup();
     }
 
     int

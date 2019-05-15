@@ -46,7 +46,7 @@ namespace gr {
        * class. moveii::burst_sync_cc::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max);
     };
 
   } // namespace moveii
