@@ -41,12 +41,18 @@ namespace gr {
       const float d_sample_rate;
       const int d_sps;
       const float d_Fmax;
+      const int d_steps;
+      const float d_F_L;
       gr_complex *d_syncword; //buffer for syncword
       gr_complex *d_tmp_fv;   //buffer for input samples
       gr_complex *d_tmp_fc;   //buffer for fft samples
+      gr_complex *d_tmp_fs;   //buffer for freq shifted fft samples
 
       void fft_input_samples(const gr_complex *in, gr_complex *out,const int N);
-      
+      void fft_freq_shift_coarse();
+      int maximum_search();
+      gr_complex diff_corr();
+
      public:
       burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max);
       ~burst_sync_cc_impl();

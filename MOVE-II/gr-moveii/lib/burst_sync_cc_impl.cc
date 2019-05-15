@@ -52,8 +52,9 @@ namespace gr {
       d_synclen_bits(synclen),  //syncword length in bits
       d_sample_rate(sample_rate), //sample rate
       d_sps(samples_per_symbol), //oversampling rate
-      d_Fmax(freq_deviaton_max) //max frequency offset at receiver
-
+      d_Fmax(freq_deviaton_max), //max frequency offset at receiver
+      d_steps(static_cast<int>(4.0 * (1.0/d_sample_rate) * d_Fmax)), //steps for the coarse frequency estimate
+      d_F_L(d_sample_rate/4.0)  //coarse frequency range
 
     {
       //copy ASM to private memory
@@ -61,10 +62,15 @@ namespace gr {
       boost::scoped_array<unsigned char> tmp(new unsigned char[synclen_byte]);
       hexstring_to_binary(&syncword, tmp.get());
 
+
+
       //Buffers
       d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned Buffer for complex samples
       d_tmp_fc = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned Buffer for fft samples
+      d_tmp_fs = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned Buffer for freq shifted fft samples
       d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); // aligned buffer for syncword
+      //d_max_diff_corr =     //buffer for the max result of the diff correlation
+      //compute the frequencies in advance
 
       //get syncword out of tmp
       for(unsigned int i=0; i<d_synclen_bits; i++)  {
@@ -74,6 +80,8 @@ namespace gr {
         d_syncword[i] = (bit ? gr_complex(-1.0, 0.0) : gr_complex(1.0, 0.0));
       }
 
+      //fftw plan here
+      //fftwf_plan plan = fftwf_plan_dft_1d(N,const_cast<fftwf_complex*>(reinterprets_cast<const fftwf_complex*>(in)), reinterpret_cast<fftwf_complex*>(out), FFTW_FORWARD, FFTW_ESTIMATE);
     }
 
     /*
@@ -87,15 +95,48 @@ namespace gr {
       //volk_free() of all buffers
     }
 
+    /*
+      void burst_sync_cc_impl::init_freq_param() {
+      //compute F_L and #ofsteps in advance
+      int steps = static_cast<int>(4.0 * (1.0/d_sample_rate) * d_Fmax);
+      float F_L = d_sample_rate/4.0;
+      cout << "steps" << steps;
+    }
+    */
 
     void
     burst_sync_cc_impl::fft_input_samples(const gr_complex *in, gr_complex *out,const int N) {
-      //compute the
-      //needs the length of the input array --> N = ninput_items
+
+      //needs the length of the required samples
+      /* into  constructor: */
       fftwf_plan plan = fftwf_plan_dft_1d(N,const_cast<fftwf_complex*>(reinterpret_cast<const fftwf_complex*>(in)), reinterpret_cast<fftwf_complex*>(out), FFTW_FORWARD, FFTW_ESTIMATE);
       fftwf_execute(plan);
       fftwf_destroy_plan(plan);
       fftwf_cleanup();
+    }
+
+
+
+    void burst_sync_cc_impl::fft_freq_shift_coarse() {
+
+      //take fft_samples and shift/rotate with incremental steps
+      for (int N = 0; N < d_steps; N++) {
+        /* code */
+      }
+
+    }
+
+    gr_complex burst_sync_cc_impl::diff_corr(){
+      /*compute the differential correlation*/
+      return 0;
+      
+    }
+
+    int burst_sync_cc_impl::maximum_search() {
+
+      /* take abs of diff_corr result and compare it to previous one
+      afterwards store the freq branch corresponding to the greater result*/
+      return 0;
     }
 
     int
