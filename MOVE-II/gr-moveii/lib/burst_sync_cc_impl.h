@@ -24,6 +24,7 @@
 #include <moveii/burst_sync_cc.h>
 #include <volk/volk.h>
 #include <complex>
+#include <fftw3.h>
 #include <cstdio>
 #include <cstdlib>
 #include "hexstring_to_binary.h"
@@ -39,22 +40,38 @@ namespace gr {
       const unsigned int d_framelen_bits;
       const unsigned int d_synclen_bits;
       const float d_sample_rate;
+      const float d_symbol_rate;
       const int d_sps;
       const float d_Fmax;
       const int d_steps;
       const float d_F_L;
-      gr_complex *d_syncword; //buffer for syncword
-      gr_complex *d_tmp_fv;   //buffer for input samples
-      gr_complex *d_tmp_fc;   //buffer for fft samples
-      gr_complex *d_tmp_fs;   //buffer for freq shifted fft samples
+      const float d_alpha;    //alpha value for the rrc filter
+      const float d_gain;     //gain value for the rrc filter
+      const int d_ntaps;      //number of taps for the rrc filter
 
-      void fft_input_samples(const gr_complex *in, gr_complex *out,const int N);
+
+      gr_complex *d_syncword; //buffer for syncword
+      gr_complex *d_syncword_conj; //buffer for complex conjugated syncword
+      gr_complex *d_tmp_fv;   //buffer for input samples
+      gr_complex *d_tmp_fft_in;     //input buffer for fft samples
+      gr_complex *d_tmp_fft_out;    //output buffer for fft samples
+
+      gr_complex *d_tmp_ifft_in;    //input buffer for ifft samples
+      gr_complex *d_tmp_ifft_out;   //output buffer for ifft samples
+      int blocksize;
+
+      //variables for differential correlation
+      float d_max_diff_corr;
+      int d_sample_set[2];
+
+      void fft_input_samples(const gr_complex *in, gr_complex *out, fftwf_plan plan, bool forward);
       void fft_freq_shift_coarse();
-      int maximum_search();
-      gr_complex diff_corr();
+      void maximum_search(const gr_complex *in, int n, int N);
+      gr_complex gamma_func(const gr_complex *in, int n, int k);
+      gr_complex diff_corr(const gr_complex *in);
 
      public:
-      burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max);
+      burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max, float alpha, float gain, int ntaps);
       ~burst_sync_cc_impl();
 
       // Where all the action really happens
