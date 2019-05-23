@@ -69,8 +69,7 @@ namespace gr {
       hexstring_to_binary(&syncword, tmp.get());
 
       //initialise the root raised cosine filter
-      //static std::vector<float> rrc_filter;
-      //static std::vector<float> gr::filter::firdes::root_raised_cosine(double d_gain, double d_sample_rate, double d_symbol_rate, double	d_alpha, int ntaps);
+      std::vector<float> rrc_filter = gr::filter::firdes::root_raised_cosine(d_gain, d_sample_rate, d_symbol_rate, d_alpha, ntaps);
 
 
 
