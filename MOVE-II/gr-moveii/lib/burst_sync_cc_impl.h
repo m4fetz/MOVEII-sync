@@ -44,6 +44,7 @@ namespace gr {
       const int d_sps;
       const float d_Fmax;
       const int d_steps;
+      const int d_F_step;
       const float d_F_L;
       const float d_alpha;    //alpha value for the rrc filter
       const float d_gain;     //gain value for the rrc filter
@@ -53,19 +54,20 @@ namespace gr {
       gr_complex *d_syncword; //buffer for syncword
       gr_complex *d_syncword_conj; //buffer for complex conjugated syncword
       gr_complex *d_tmp_fv;   //buffer for input samples
-      gr_complex *d_tmp_fft_in;     //input buffer for fft samples
-      gr_complex *d_tmp_fft_out;    //output buffer for fft samples
+      gr_complex *d_tmp_fft;     //buffer for fft samples
 
-      gr_complex *d_tmp_ifft_in;    //input buffer for ifft samples
-      gr_complex *d_tmp_ifft_out;   //output buffer for ifft samples
       int blocksize;
+      fftwf_plan plan_forward;
+      fftwf_plan plan_backward;
 
       //variables for differential correlation
       float d_max_diff_corr;
       int d_sample_set[2];
 
-      void fft_input_samples(const gr_complex *in, gr_complex *out, fftwf_plan plan, bool forward);
-      void fft_freq_shift_coarse();
+      void fft_input_samples(const gr_complex *in);
+      void ifft();
+      void fft_center();
+      void fft_freq_shift_coarse(int N);
       void maximum_search(const gr_complex *in, int n, int N);
       gr_complex gamma_func(const gr_complex *in, int n, int k);
       gr_complex diff_corr(const gr_complex *in);

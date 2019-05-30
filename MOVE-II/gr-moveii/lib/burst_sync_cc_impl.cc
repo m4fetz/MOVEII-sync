@@ -56,7 +56,9 @@ namespace gr {
       d_symbol_rate(d_sample_rate/d_sps), //symbol rate
       d_Fmax(freq_deviaton_max), //max frequency offset at receiver
       d_steps(static_cast<int>(4.0 * (1.0/d_sample_rate) * d_Fmax)), //steps for the coarse frequency estimate
+      d_F_step(static_cast<int>(d_sample_rate/2.0)),
       d_F_L(d_sample_rate/4.0),  //coarse frequency range
+
 
       d_alpha(alpha), //alpha of rrc_filter
       d_gain(gain),   //gain of rrc_filter
@@ -70,24 +72,23 @@ namespace gr {
 
       //initialise the root raised cosine filter
       std::vector<float> rrc_filter = gr::filter::firdes::root_raised_cosine(d_gain, d_sample_rate, d_symbol_rate, d_alpha, ntaps);
-
-
+      //maybe initialise as its definition in the frequency domain
+      //std::vector<gr_complex> rc_filter(2*((1+d_alpha)*(2*d_symbol));
+      //
 
       //Buffers
       d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned Buffer for complex samples
-      d_tmp_fft_in = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned input Buffer for fft samples
-      d_tmp_fft_out = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned output Buffer for fft samples
-      d_tmp_ifft_in = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned input Buffer for ifft samples
-      d_tmp_ifft_out = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment());//aligned output Buffer for ifft samples
+
+      d_tmp_fft = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned input Buffer for fft samples
 
       d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); // aligned buffer for syncword
       d_syncword_conj = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated syncword
 
 
       //initialise the fftw fftwf_plan
-      int blocksize;           //blocksize of the fft
-      fftwf_plan plan_forward = fftwf_plan_dft_1d(blocksize, const_cast<fftwf_complex*>(reinterpret_cast<const fftwf_complex*>(d_tmp_fft_in)), reinterpret_cast<fftwf_complex*>(d_tmp_fft_out), FFTW_FORWARD, FFTW_ESTIMATE);
-      fftwf_plan plan_backward = fftwf_plan_dft_1d(blocksize, const_cast<fftwf_complex*>(reinterpret_cast<const fftwf_complex*>(d_tmp_ifft_in)), reinterpret_cast<fftwf_complex*>(d_tmp_ifft_out), FFTW_BACKWARD, FFTW_ESTIMATE);
+      int blocksize = d_framelen_bits * sizeof(gr_complex);           //blocksize of the fft
+      fftwf_plan plan_forward = fftwf_plan_dft_1d(blocksize, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_fft), FFTW_FORWARD, FFTW_ESTIMATE);
+      fftwf_plan plan_backward = fftwf_plan_dft_1d(blocksize, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_fft), FFTW_BACKWARD, FFTW_ESTIMATE);
 
       //get syncword out of tmp
       for(unsigned int i=0; i<d_synclen_bits; i++)  {
@@ -112,58 +113,50 @@ namespace gr {
     {
       volk_free(d_syncword);
       volk_free(d_tmp_fv);
-      volk_free(d_tmp_fft_out);
-      volk_free(d_tmp_fft_in);
-      volk_free(d_tmp_ifft_out);
-      volk_free(d_tmp_ifft_in);
+
+      volk_free(d_tmp_fft);
+
       //volk_free() of all buffers
     }
 
 
-    void
-    burst_sync_cc_impl::fft_input_samples(const gr_complex *in, gr_complex *out, fftwf_plan plan, bool forward) {
+    void burst_sync_cc_impl::fft_input_samples(const gr_complex *in) {
 
-      switch (forward) {
-        case true:
-          //copy into buffer
-          for (size_t i = 0; i < d_framelen_bits; i++) {
-            d_tmp_fft_in[i] = in[i];
-          }
-
-          fftwf_execute(plan);
-
-          for (size_t i = 0; i < d_framelen_bits; i++) {
-            out[i] = d_tmp_fft_out[i];
-          }
-          break;
-
-        case false:
-          //copy into buffer
-          for (size_t i = 0; i < d_framelen_bits; i++) {
-            d_tmp_ifft_in[i] = in[i];
-          }
-
-          fftwf_execute(plan);
-
-          for (size_t i = 0; i < d_framelen_bits; i++) {
-            out[i] = d_tmp_ifft_out[i];
-            out[i] /= d_framelen_bits;  //scaling
-          }
-
-          break;
+        //copy into buffer
+        for (size_t i = 0; i < d_framelen_bits; i++) {
+          d_tmp_fft[i] = in[i];
         }
-    }
-
-
-
-    void burst_sync_cc_impl::fft_freq_shift_coarse() {
-
-      //take fft_samples and add the phase increment
-      for (size_t i = 0; i < d_framelen_bits; i++) {
-        /*add factor of d_F_L to every sample */
+        fftwf_execute(plan_forward);
       }
 
+    void burst_sync_cc_impl::ifft(){
+          //buffer on which we worked on is d_tmp_fft
+          fftwf_execute(plan_backward);
+
+          for (size_t i = 0; i < d_framelen_bits; i++) {
+            d_tmp_fft[i] /= d_framelen_bits;  //scaling
+          }
+      }
+
+
+    void burst_sync_cc_impl::fft_center() {
+          int N = d_framelen_bits;
+          //for even number of elements
+          if (N % 2 == 0) {
+            rotate(&d_tmp_fft[0], &d_tmp_fft[N >> 1], &d_tmp_fft[N]);
+          }
+          //odd number of elements
+          else {
+            rotate(&d_tmp_fft[0], &d_tmp_fft[(N >> 1) + 1], &d_tmp_fft[N]);
+          }
     }
+
+    void burst_sync_cc_impl::fft_freq_shift_coarse(int N) {
+      //take fft_samples and add the phase increment by std::rotate
+      int shift = static_cast<int>(-d_Fmax + N * d_F_step);
+      rotate(&d_tmp_fft[0], &d_tmp_fft[0 + shift], &d_tmp_fft[d_framelen_bits]);
+    }
+
 
     gr_complex burst_sync_cc_impl::gamma_func(const gr_complex *in, int n, int k){
       //gamma(n,k)=x(nT_s) * conj(p_r(kT))
