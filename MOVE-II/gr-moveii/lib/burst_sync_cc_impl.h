@@ -28,6 +28,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "hexstring_to_binary.h"
+#include <math.h>
 
 namespace gr {
   namespace moveii {
@@ -55,6 +56,7 @@ namespace gr {
       gr_complex *d_syncword_conj; //buffer for complex conjugated syncword
       gr_complex *d_tmp_fv;   //buffer for input samples
       gr_complex *d_tmp_fft;     //buffer for fft samples
+      gr_complex *d_tmp_ifft;  //buffer for fft samples that can be overwritten
 
       int blocksize;
       fftwf_plan plan_forward;
@@ -67,10 +69,12 @@ namespace gr {
       void fft_input_samples(const gr_complex *in);
       void ifft();
       void fft_center();
-      void fft_freq_shift_coarse(int N);
-      void maximum_search(const gr_complex *in, int n, int N);
-      gr_complex gamma_func(const gr_complex *in, int n, int k);
-      gr_complex diff_corr(const gr_complex *in);
+      void fft_freq_shift_coarse(gr_complex *in, int N);
+      void maximum_search(gr_complex *in, int n, int N);
+      gr_complex gamma_func(gr_complex *in, int n, int k);
+      gr_complex diff_corr(gr_complex *in);
+      void coarse_offset(const gr_complex *in, gr_complex *out);
+
 
      public:
       burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max, float alpha, float gain, int ntaps);
