@@ -20,5 +20,6 @@
 
 install(FILES
     moveii_freq_adjust_cf.xml
-    moveii_burst_sync_cc.xml DESTINATION share/gnuradio/grc/blocks
+    moveii_burst_sync_cc.xml
+    moveii_rrc_filter_fft.xml DESTINATION share/gnuradio/grc/blocks
 )

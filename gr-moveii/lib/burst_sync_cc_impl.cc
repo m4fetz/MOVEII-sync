@@ -31,7 +31,7 @@
 
 using namespace std;
 
-#define PI 3.14159265
+
 
 namespace gr {
   namespace moveii {
@@ -101,6 +101,8 @@ namespace gr {
       d_tmp_fv = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned Buffer for complex samples
 
       d_tmp_fft = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned input Buffer for fft samples
+      d_tmp_fft_work = fftwf_alloc_complex(d_framelen_bits);  //buffer for the shifting and computation of the correlation values
+
       d_tmp_ifft = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment());
       d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); // aligned buffer for syncword
       d_syncword_conj = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated syncword
@@ -137,6 +139,7 @@ namespace gr {
 
       volk_free(d_tmp_fft);
       volk_free(d_tmp_ifft);
+      fftwf_free(d_tmp_fft_work);
       //volk_free() of all buffers
     }
 
@@ -158,7 +161,7 @@ namespace gr {
           }
       }
 
-
+    /*  Only used for plotting the frequencies
     void burst_sync_cc_impl::fft_center() {
           int N = d_framelen_bits;
           //for even number of elements
@@ -170,16 +173,12 @@ namespace gr {
             rotate(&d_tmp_fft[0], &d_tmp_fft[(N >> 1) + 1], &d_tmp_fft[N]);
           }
     }
-
-    void burst_sync_cc_impl::fft_freq_shift_coarse(gr_complex *in, int N) {
+    */
+    void burst_sync_cc_impl::fft_freq_shift_coarse(fftwf_complex *in, int N) {
       //take fft_samples and add the phase increment by std::rotate
-      if (N == 0) {
-        rotate(&in[0], &in[0 + static_cast<int>(-d_Fmax)], &in[d_framelen_bits]);
-      }
-      else {
-        int shift = static_cast<int>(-d_Fmax + d_F_step);
-        rotate(&in[0], &in[0 + shift], &in[d_framelen_bits]);
-      }
+      int shift = static_cast<int>(-d_Fmax + N*d_F_step);
+      rotate(&in[0], &in[0 + shift], &in[d_framelen_bits]);
+
     }
 
 
@@ -214,6 +213,7 @@ namespace gr {
 
     void burst_sync_cc_impl::coarse_offset(const gr_complex *in, gr_complex *out) {
       // compute the coarse offset of the branch with the maximum peak, after going through the sample set
+      // convert to frequency TODO
       float coarse_offset = -(-d_Fmax + (d_sample_set[0] * d_F_step));
       lv_32fc_t phase = lv_cmake(1.f, 0.0f); // start at 1 (0 rad phase)
       volk_32fc_s32fc_x2_rotator_32fc(out, in, coarse_offset, &phase, d_framelen_bits);
@@ -230,15 +230,20 @@ namespace gr {
 
       /*Start with the coarse frequency correction
       fft_input_samples(&in[0]);
-      fft_center();
-      for (size_t i = 0; i < count; i++) {
-        offset = 0;
-            for (size_t i = 0; i < N; i++) {
-              fft_freq_shift_coarse(d_tmp_fft, N);
-              ifft();
-              maximum_search(d_tmp_fft_w, offset, N);
-            }
-        offset =+ offset;
+
+      //rotate by N*d_F_step every iteration
+      //first copy d_tmp_fft int d_tmp_fft_work
+      for (size_t N = 0; N < d_steps; N++) {
+        fft_freq_shift_coarse(d_tmp_fft_work, N);
+        //matchedfiltering
+
+        d_tmp_fft_work = d_tmp_fft_work * rrc_filter_fft
+
+        //search for maximum in current branch N over # of available samples
+        for (size_t offset = 0; offset < #ofsamples; offset++) {
+          maximum_search(d_tmp_fft_w, i, N);
+        }
+
       coarse_offset(&in[0], d_tmp_fft_w);
       */
 

@@ -57,6 +57,7 @@ namespace gr {
       gr_complex *d_tmp_fv;   //buffer for input samples
       gr_complex *d_tmp_fft;     //buffer for fft samples
       gr_complex *d_tmp_ifft;  //buffer for fft samples that can be overwritten
+      fftwf_complex* d_tmp_fft_work;
 
       int blocksize;
       fftwf_plan plan_forward;

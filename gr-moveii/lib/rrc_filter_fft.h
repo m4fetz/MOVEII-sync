@@ -1,0 +1,2 @@
+#ifndef __IN_RRC_FILTER_FFT_HPP__
+#define __IN_RRC_FILTER_FFT_HPP__

@@ -24,5 +24,6 @@
 install(FILES
     api.h
     freq_adjust_cf.h
-    burst_sync_cc.h DESTINATION include/moveii
+    burst_sync_cc.h
+    rrc_filter_fft.h DESTINATION include/moveii
 )
