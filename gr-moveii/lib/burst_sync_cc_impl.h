@@ -29,6 +29,7 @@
 #include <cstdlib>
 #include "hexstring_to_binary.h"
 #include <math.h>
+#include "rrc_filter_fft.h"
 
 namespace gr {
   namespace moveii {

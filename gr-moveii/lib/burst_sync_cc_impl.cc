@@ -95,6 +95,8 @@ namespace gr {
       }
       */
 
+      //TODO this->rrc_filter = new rrc_filter_fft();
+
 
 
       //Buffers
