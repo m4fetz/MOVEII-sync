@@ -28,6 +28,7 @@
 #include <complex> // include complex before fftw3.h to make sure that std::complex<float> is compatible with fftwf_comples
 #include <fftw3.h>
 #include <gnuradio/filter/firdes.h>
+#include "rrc_filter_fft.h"
 
 using namespace std;
 
@@ -76,26 +77,10 @@ namespace gr {
       //initialise the root raised cosine filter
       std::vector<float> rrc_filter = gr::filter::firdes::root_raised_cosine(d_gain, d_sample_rate, d_symbol_rate, d_alpha, ntaps);
       //maybe initialise as its definition in the frequency domain
-      /*std::vector<float> ones(2*(1-alpha/2T));
-      for (size_t i = 0; i < ones.size(); i++) {
-          ones[i] = 1.0;
-      }
-      std::vector<float> right_side(0.5*(1/T));
-      for (size_t i = 0; i < right_side.size(); i++) {
-          rolloff_onesided[i] = sqrt(   0.5*(1.0 + cos( (PI*T/d_alpha) * (i - (1-d_aplha/2T)) )   );
-      }
-      std::vector<float> left_side(0.5*(1/T));
-      //void volk_32f_sqrt_32f instead of sqrt()?
-      for (size_t i = 0; i < left_side.size(); i++) {
-          rolloff_onesided[i] = sqrt(   0.5*(1.0 + cos( (PI*T/d_alpha) * (-i - (1-d_aplha/2T)) )   );
-      }
-      std::std::vector<float> zeros(d_ntaps - (2*(1-alpha/2T) + 1/T) );
-      for (size_t i = 0; i < zeros.size(); i++) {
-        zeros[i] = 0;
-      }
-      */
 
-      //TODO this->rrc_filter = new rrc_filter_fft();
+      rrc_filter = new rrc_filter_fft(d_alpha, d_ntaps, d_sps, /*RRC_OSF2=*/1, /*RRC_N_SCALE=*/1);
+      rrc_filter = fftwf_alloc_complex(N_forward);
+      rrc_filter_fft::filter_initialize(&rrc_filter);
 
 
 
@@ -108,7 +93,7 @@ namespace gr {
       d_tmp_ifft = (gr_complex*) volk_malloc(d_framelen_bits * sizeof(gr_complex), volk_get_alignment());
       d_syncword = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); // aligned buffer for syncword
       d_syncword_conj = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated syncword
-
+      //this->rrc_filter = fftwf_alloc_complex(N_forward);
 
       //initialise the fftw fftwf_plan
       int blocksize = d_framelen_bits * sizeof(gr_complex);           //blocksize of the fft
@@ -176,7 +161,7 @@ namespace gr {
           }
     }
     */
-    void burst_sync_cc_impl::fft_freq_shift_coarse(fftwf_complex *in, int N) {
+    void burst_sync_cc_impl::fft_freq_shift_coarse(gr_complex *in, int N) {
       //take fft_samples and add the phase increment by std::rotate
       int shift = static_cast<int>(-d_Fmax + N*d_F_step);
       rotate(&in[0], &in[0 + shift], &in[d_framelen_bits]);

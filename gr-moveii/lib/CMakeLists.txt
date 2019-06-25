@@ -34,7 +34,6 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND moveii_sources
     burst_sync_cc_impl.cc
-    rrc_filter_fft_impl.cc
 )
 
 set(moveii_sources "${moveii_sources}" PARENT_SCOPE)
