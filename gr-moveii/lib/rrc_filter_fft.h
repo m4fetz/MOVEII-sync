@@ -15,6 +15,8 @@ private:
 
   float *buffer;
   fftwf_complex *filter_fft;
+  fftwf_complex *buffer_complex;
+
 
   const num_t FILTER_LEN;
   const float ROLLOFF;
@@ -24,11 +26,11 @@ private:
 
 public:
 
-  rrc_filter_fft(const float ROLLOFF, const num_t NUM_TAPS, const num_t OSF1, const num_t OSF2, const num_t N_SCALE);
+  rrc_filter_fft(const float ROLLOFF, const num_t NUM_TAPS, const num_t OSF1,/* const num_t OSF2,*/ const num_t N_SCALE);
 
   ~rrc_filter_fft();
 
-  void filter_initialize(fftwf_complex *input);
+  void filter(gr_complex *input);
 
 
 };

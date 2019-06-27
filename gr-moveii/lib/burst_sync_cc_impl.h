@@ -52,6 +52,7 @@ namespace gr {
       const float d_gain;     //gain value for the rrc filter
       const int d_ntaps;      //number of taps for the rrc filter
 
+      rrc_filter_fft *rrc_filter;
 
       gr_complex *d_syncword; //buffer for syncword
       gr_complex *d_syncword_conj; //buffer for complex conjugated syncword

@@ -75,12 +75,11 @@ namespace gr {
       hexstring_to_binary(&syncword, tmp.get());
 
       //initialise the root raised cosine filter
-      std::vector<float> rrc_filter = gr::filter::firdes::root_raised_cosine(d_gain, d_sample_rate, d_symbol_rate, d_alpha, ntaps);
+      //std::vector<float> rrc_filter = gr::filter::firdes::root_raised_cosine(d_gain, d_sample_rate, d_symbol_rate, d_alpha, ntaps);
       //maybe initialise as its definition in the frequency domain
 
-      rrc_filter = new rrc_filter_fft(d_alpha, d_ntaps, d_sps, /*RRC_OSF2=*/1, /*RRC_N_SCALE=*/1);
-      rrc_filter = fftwf_alloc_complex(N_forward);
-      rrc_filter_fft::filter_initialize(&rrc_filter);
+      this->rrc_filter = new rrc_filter_fft(d_alpha, d_ntaps, d_sps, /*RRC_OSF2 ,*/ /*RRC_N_SCALE=*/1.0);
+      //rrc_filter = fftwf_alloc_complex(N_forward);
 
 
 
@@ -97,7 +96,7 @@ namespace gr {
 
       //initialise the fftw fftwf_plan
       int blocksize = d_framelen_bits * sizeof(gr_complex);           //blocksize of the fft
-      fftwf_plan plan_forward = fftwf_plan_dft_1d(blocksize, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_fft), FFTW_FORWARD, FFTW_ESTIMATE);
+      fftwf_plan plan_forward = fftwf_plan_dft_1d(blocksize, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_fft_work), FFTW_FORWARD, FFTW_ESTIMATE);
       fftwf_plan plan_backward = fftwf_plan_dft_1d(blocksize, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_ifft), FFTW_BACKWARD, FFTW_ESTIMATE);
 
       //get syncword out of tmp
@@ -215,25 +214,25 @@ namespace gr {
       const gr_complex *in = (const gr_complex *) input_items[0];
       gr_complex *out = (gr_complex *) output_items[0];
 
-      /*Start with the coarse frequency correction
+      //Start with the coarse frequency correction
       fft_input_samples(&in[0]);
 
       //rotate by N*d_F_step every iteration
-      //first copy d_tmp_fft int d_tmp_fft_work
+      //first copy d_tmp_fft into d_tmp_fft_work
       for (size_t N = 0; N < d_steps; N++) {
-        fft_freq_shift_coarse(d_tmp_fft_work, N);
-        //matchedfiltering
+        fft_freq_shift_coarse(d_tmp_fft, N);
 
-        d_tmp_fft_work = d_tmp_fft_work * rrc_filter_fft
+        //matchedfiltering
+        this->rrc_filter->filter(d_tmp_fft);
 
         //search for maximum in current branch N over # of available samples
-        for (size_t offset = 0; offset < #ofsamples; offset++) {
-          maximum_search(d_tmp_fft_w, i, N);
+        for (size_t offset = 0; offset < noutput_items; offset++) {
+          maximum_search(d_tmp_fft, offset, N);
         }
 
-      coarse_offset(&in[0], d_tmp_fft_w);
-      */
+      coarse_offset(&in[0], d_tmp_fft);
 
+      }
 
       // Tell runtime system how many output items we produced.
       return noutput_items;
