@@ -51,14 +51,18 @@ namespace gr {
       const float d_alpha;    //alpha value for the rrc filter
       const float d_gain;     //gain value for the rrc filter
       const int d_ntaps;      //number of taps for the rrc filter
+      const int d_N_scale;    //parameter for Overlap Save method
+      const int d_N_forward;  //length of the blocks for Overlap Save method
+      const int d_overlap;    //overlap for Overlap Save method
 
       rrc_filter_fft *rrc_filter;
 
       gr_complex *d_syncword; //buffer for syncword
       gr_complex *d_syncword_conj; //buffer for complex conjugated syncword
       gr_complex *d_tmp_fv;   //buffer for input samples
-      gr_complex *d_tmp_fft;     //buffer for fft samples
       gr_complex *d_tmp_ifft;  //buffer for fft samples that can be overwritten
+
+      fftwf_complex *d_tmp_fft;     //buffer for fft samples
       fftwf_complex* d_tmp_fft_work;
 
       int blocksize;
@@ -66,6 +70,7 @@ namespace gr {
       fftwf_plan plan_backward;
 
       //variables for differential correlation
+      gr_complex d_correlation;
       float d_max_diff_corr;
       int d_sample_set[2];
 
@@ -80,7 +85,7 @@ namespace gr {
 
 
      public:
-      burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max, float alpha, float gain, int ntaps);
+      burst_sync_cc_impl(bool MPSK, float framelen, std::string syncword, int synclen, int samples_per_symbol, float sample_rate, float freq_deviaton_max, float alpha, float gain, int ntaps, int N_scale);
       ~burst_sync_cc_impl();
 
       // Where all the action really happens
