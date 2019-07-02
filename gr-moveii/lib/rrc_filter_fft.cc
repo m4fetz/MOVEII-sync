@@ -49,13 +49,16 @@ rrc_filter_fft::rrc_filter_fft(const float ROLLOFF, const num_t NUM_TAPS, const 
 
       fftwf_execute(this->p_forward);
 
-      /*
-      done in burst_sync_cc_impl
+
       // Init overlap part of input buffer with zeros
       for(num_t i=0; i<N_forward; i++) {
-          this->buffer_in[i] = 0.0f;
+        this->buffer_real_in[i] = 0.0f;
       }
-      */
+
+      // Pointer to output buffer starting from element OVERLAP+1
+      this->buffer_real_out_processed = &this->buffer_real_out[OVERLAP];
+
+
 }
 
 rrc_filter_fft::~rrc_filter_fft() {
@@ -89,6 +92,12 @@ float rrc_filter_fft::filter_tap(const num_t i, const num_t k, const num_t N) {
 
 void rrc_filter_fft::filter(fftwf_complex *input){
     num_t i;
+
+    // copy input into buffer
+    for(i=0; i<BLOCK_LEN_IN_SYM; i++) {
+        this->buffer_complex[OVERLAP+i] = input[i];
+    }
+
     float tmp_real, tmp_imag;
 
     /*
@@ -99,17 +108,18 @@ void rrc_filter_fft::filter(fftwf_complex *input){
     for (i=0; i < N_forward_half; i++) {
 
       //fftwf_complex is defined as float[2] array
-      tmp_real =  input[i][0] * this->filter_fft[i][0]
-                - input[i][1] * this->filter_fft[i][1];
-      tmp_imag =  input[i][0] * this->filter_fft[i][1]
-                + input[i][1] * this->filter_fft[i][0];
+      tmp_real =  this->buffer_complex[i][0] * this->filter_fft[i][0]
+                - this->buffer_complex[i][1] * this->filter_fft[i][1];
+      tmp_imag =  this->buffer_complex[i][0] * this->filter_fft[i][1]
+                + this->buffer_complex[i][1] * this->filter_fft[i][0];
 
       this->buffer_complex[i][0] = tmp_real;
       this->buffer_complex[i][1] = tmp_imag;
     }
 
-    //std::memcpy(&input, this->filter_fft, N_forward_half*sizeof(fftwf_complex));
+    // copy the last M-1 samples to the next input pointer
+    std::memcpy(this->buffer_complex, &this->buffer_complex[N_forward-OVERLAP], OVERLAP*sizeof(float));
 }
 const fftwf_complex* rrc_filter_fft::get_output_buffer() const{
-  return this->buffer_processed;
+  return this->buffer_complex;
 }

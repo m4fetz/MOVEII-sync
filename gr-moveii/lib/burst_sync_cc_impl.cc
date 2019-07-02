@@ -97,14 +97,14 @@ namespace gr {
       d_syncword_conj = (gr_complex*) volk_malloc(d_synclen_bits * sizeof(gr_complex), volk_get_alignment()); //aligned buffer for complex conjugated syncword
 
 
-      //initialize the overlap in the buffer
+      /*initialize the overlap in the buffer
       for(size_t i=0; i<d_N_forward; i++) {
-        for (size_t j = 0; 1; j++) {
-                  d_tmp_fft[i][j] = 0.0f;
-        }
+        d_tmp_fft[i][0] = 0.0f;
+        d_tmp_fft[i][1] = 0.0f;
       }
+      */
 
-      //initialise the fftw fftwf_plan
+      //initialize the fftw fftwf_plan
       fftwf_plan plan_forward = fftwf_plan_dft_1d(d_N_forward, d_tmp_fft, d_tmp_fft, FFTW_FORWARD, FFTW_ESTIMATE);
       fftwf_plan plan_backward = fftwf_plan_dft_1d(d_N_forward, (reinterpret_cast<fftwf_complex*>(d_tmp_fft)), reinterpret_cast<fftwf_complex*>(d_tmp_ifft), FFTW_BACKWARD, FFTW_ESTIMATE);
 
@@ -146,8 +146,10 @@ namespace gr {
         //copy into buffer with overlap
         //TODO adjust the length of input samples also in plan_forward
         for (size_t i = 0; i < d_N_forward; i++) {
-          d_tmp_fft[d_overlap+d_sps*i][0] = real(in[i]);
-          d_tmp_fft[d_overlap+d_sps*i][1] = imag(in[i]);
+          /*d_overlap zeros in the beginning, then the input samples_per_symbol
+           that have a oversampling factor of d_sps*/
+          d_tmp_fft[d_overlap+i][0] = real(in[i]);
+          d_tmp_fft[d_overlap+i][1] = imag(in[i]);
         }
 
         fftwf_execute(plan_forward);
